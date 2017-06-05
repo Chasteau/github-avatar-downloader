@@ -20,6 +20,9 @@ function returnAvatarUrl(error, response) {
   } 
 }
 
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
+
 function getRepoContributors(repoOwner, repoName, cb) {
 // Token 
 var GITHUB_USER = "Chasteau";
@@ -59,6 +62,6 @@ function downloadImageByURL(url, filePath) {
        .pipe(fs.createWriteStream(filePath));  
 }
 
-var path = "some folder to download imgs";
-
-downloadImageByURL(getRepoContributors("jquery", "jquery", printAvatarUrl), path"");
+//var path = "some folder to download imgs";
+//
+//downloadImageByURL(getRepoContributors("jquery", "jquery", printAvatarUrl), path"");
