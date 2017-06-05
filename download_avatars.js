@@ -59,5 +59,6 @@ function downloadImageByURL(url, filePath) {
        .pipe(fs.createWriteStream(filePath));  
 }
 
-//downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "/git_images/pic.jpeg");
+var path = "some folder to download imgs";
+
 downloadImageByURL(getRepoContributors("jquery", "jquery", printAvatarUrl), path"");
