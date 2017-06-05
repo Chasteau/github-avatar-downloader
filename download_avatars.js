@@ -5,18 +5,20 @@
 var API_KEY = require("../API_KEY");
 var fs = require('fs');
 var request = require('request');
+var mkdirp = require('mkdirp');
+var getDirName = require('path').dirname;
 
 function returnAvatarUrl(error, response) {
 	var json = JSON.parse(response.body);
+	
   	if (error) {
-		console.error(error);
-  	} else if (response.statusCode == 503) {
-    	console.error('Server error');
+		console.log(error);
 	} else {
 	  for (i = 0; i < json.length; i++) {
 		  //console.log(json[i].avatar_url);
 		  return(json[i].avatar_url);
 	  	}
+		
   	} 
 }
 
@@ -27,7 +29,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 // Token 
 	var GITHUB_USER = "Chasteau";
 	var GITHUB_TOKEN = API_KEY;
-	var userAgent = "--User-Agent: Chasteau"  
+	var userAgent = 'GitHub Avatar Download - Student Project'  
 	var requestURL =` https://${GITHUB_USER}:${GITHUB_TOKEN}@api.github.com/repos/${repoOwner}/${repoName}/contributors`;
 	var options = {
 		url: requestURL,
@@ -35,8 +37,9 @@ function getRepoContributors(repoOwner, repoName, cb) {
 			'User-Agent': userAgent
 		}
 	}
-	if (!repoOwner && !repoName) {	
-		return console.log(" must input repoOwner and repoName!");
+	
+	if (!repoOwner && !repoName) {
+		console.log("must input repoOwner and repoName!");
 	} else {
 	request(options, cb);
 	}
@@ -48,11 +51,15 @@ function downloadImageByURL(url, filePath) {
 	var options = {
 		url: url,
 		headers: {
-			'User-Agent':"Chasteau"
+			'User-Agent':'GitHub Avatar Download - Student Project'
 		}
 	}
 	
-	request.get(options, filePath)               
+	mkdirp(getDirName(filePath), function (err){
+		if (err) throw err;
+	})
+	
+	request.get(url, filePath)               
        .on('error', function (err) {                                
          throw err; 
        })
@@ -66,6 +73,7 @@ function downloadImageByURL(url, filePath) {
        .pipe(fs.createWriteStream(filePath));  
 }
 
-//var path = "some folder to download imgs";
-//
-//downloadImageByURL(getRepoContributors("jquery", "jquery", printAvatarUrl), path"");
+var dlPath = process.argv[3];
+
+//getRepoContributors('jquery', 'jquery', returnAvatarUrl);
+//(downloadImageByUR(getRepoContributors('jquery', 'jquery', returnAvatarUrl), dlPath);
