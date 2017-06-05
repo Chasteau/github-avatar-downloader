@@ -29,13 +29,17 @@ var GITHUB_USER = "Chasteau";
 var GITHUB_TOKEN = API_KEY;
 var userAgent = "--User-Agent: Chasteau"  
 var requestURL =` https://${GITHUB_USER}:${GITHUB_TOKEN}@api.github.com/repos/${repoOwner}/${repoName}/contributors`;
-	var options = {
+var options = {
 		url: requestURL,
 		headers: {
 			'User-Agent': userAgent
 		}
 	}
+if (!repoOwner && !repoName) {	
+	return; console.log(" must input repoOwner and repoName!")
+} else {
 request(options, cb);
+}
 }
 
 //getRepoContributors("jquery", "jquery", printAvatarUrl);
