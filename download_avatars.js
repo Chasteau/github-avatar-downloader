@@ -6,7 +6,7 @@ var API_KEY = require("../API_KEY");
 var fs = require('fs');
 var request = require('request');
 
-function printAvatarUrl(error, response) {
+function returnAvatarUrl(error, response) {
 	var json = JSON.parse(response.body);
   if (error) {
     console.error(error);
@@ -14,7 +14,8 @@ function printAvatarUrl(error, response) {
     console.error('Server error');
   } else {
 	  for (i = 0; i < json.length; i++) {
-		  console.log(json[i].avatar_url);
+		  //console.log(json[i].avatar_url);
+		  return(jason[i].avatar_url);
 	  }
   } 
 }
@@ -59,3 +60,4 @@ function downloadImageByURL(url, filePath) {
 }
 
 //downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "/git_images/pic.jpeg");
+downloadImageByURL(getRepoContributors("jquery", "jquery", printAvatarUrl), path"");
