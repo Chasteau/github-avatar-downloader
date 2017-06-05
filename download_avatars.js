@@ -15,7 +15,7 @@ function returnAvatarUrl(error, response) {
   } else {
 	  for (i = 0; i < json.length; i++) {
 		  //console.log(json[i].avatar_url);
-		  return(jason[i].avatar_url);
+		  return(json[i].avatar_url);
 	  }
   } 
 }
