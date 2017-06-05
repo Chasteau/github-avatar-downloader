@@ -3,6 +3,7 @@
 
 // require nodes request
 var API_KEY = require("../API_KEY");
+var fs = require('fs');
 var request = require('request');
 
 function printAvatarUrl(error, response) {
@@ -33,4 +34,28 @@ var requestURL =` https://${GITHUB_USER}:${GITHUB_TOKEN}@api.github.com/repos/${
 request(options, cb);
 }
 
-getRepoContributors("jquery", "jquery", printAvatarUrl);
+//getRepoContributors("jquery", "jquery", printAvatarUrl);
+
+function downloadImageByURL(url, filePath) {	
+	var options = {
+		url: url,
+		headers: {
+			'User-Agent':"Chasteau"
+		}
+	}
+	
+	request.get(options, filePath)               
+       .on('error', function (err) {                                
+         throw err; 
+       })
+       .on('response', function (response) {
+		console.log("Downloading image..");
+         console.log(`Response Status Code: ${response.statusCode}, Reponse content type: ${response.headers['content-type']}`);
+       })
+		.on('end', function (response) {
+		console.log("Saved image to disk-->");
+       })
+       .pipe(fs.createWriteStream(filePath));  
+}
+
+//downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "/git_images/pic.jpeg");
